@@ -7,6 +7,9 @@ workflows:
           name: 'build-dev'
           requires:
             - tests
+          filters:
+            branches:
+              only: develop
       - build:
           name: 'build-uat'
           requires:
