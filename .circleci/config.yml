@@ -2,18 +2,13 @@ version: 2.1
 workflows:
   deployment-workflow:
     jobs:
-      - tests:
+      - tests
       - build:
           name: 'build-dev'
-          my_env : dev
           requires:
             - tests
-          filters:
-            branches:
-              only: develop
       - build:
           name: 'build-uat'
-          my_env : uat
           requires:
             - tests
           filters:
@@ -21,7 +16,6 @@ workflows:
               only: uat
       - build:
           name: 'build-prod'
-          my_env : prod
           requires:
             - tests
           filters:
@@ -29,7 +23,6 @@ workflows:
               only: main
       - deploy:
           name: 'deploy-dev'
-          my_env : dev
           requires:
             - build-dev
           filters:
@@ -37,7 +30,6 @@ workflows:
               only: develop
       - deploy:
           name: 'deploy-uat'
-          my_env : uat
           requires:
             - build-uat
           filters:
@@ -45,7 +37,6 @@ workflows:
               only: uat
       - deploy:
           name: 'deploy-prod'
-          my_env : prod
           requires:
             - build-prod
           filters:
@@ -59,28 +50,21 @@ jobs:
       - checkout
       - run: # print the name of the branch we're on
           name: "Branch ${CIRCLE_BRANCH}"
+          command: echo ${CIRCLE_BRANCH}
   build:
-    parameters:
-      my_env:
-        description: "environment"
-        default: "dev"
-        type: string
     docker:
       - image: circleci/node:lts
     steps:
       - checkout
       - run: # print the name of the branch we're on
           name: "Branch ${CIRCLE_BRANCH}"
+          command: echo ${CIRCLE_BRANCH}
 
   deploy:
-    parameters:
-      my_env:
-        description: "environment"
-        default: "dev"
-        type: string
     docker:
       - image: circleci/node:lts
     steps:
       - checkout
       - run: # print the name of the branch we're on
           name: "Branch ${CIRCLE_BRANCH}"
+          command: echo ${CIRCLE_BRANCH}
