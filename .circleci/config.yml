@@ -1,5 +1,10 @@
 version: 2.1
 workflows:
+  pull_request:
+    when: << pipeline.parameters.pull_request >>
+    jobs:
+      - tests
+
   deployment-workflow:
     jobs:
       - tests
