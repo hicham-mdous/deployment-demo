@@ -4,12 +4,15 @@ parameters:
     type: boolean
     default: false
 workflows:
-  pull-request-tests:
-    when: 
-      << pipeline.parameters.pull_request >>
+
+  # PR Tests 
+  on-pull-request-tests:
+    when: << pipeline.parameters.pull_request >>
     jobs:
       - tests
-  tests:
+
+  # feature,hotfix,bugfix Tests 
+  on-push-tests:
     unless : << pipeline.parameters.pull_request >>
     jobs:
       - tests:
@@ -19,46 +22,43 @@ workflows:
                 - develop
                 - uat
                 - main
-
-  build-and-deployment:
-    unless: << pipeline.parameters.pull_request >>
+  # DEV 
+  build-and-deployment-to-dev:
+    when:
+      and:
+        - equal: [ false, << pipeline.parameters.pull_request >> ]
+        - equal: [ develop, << pipeline.git.branch >> ]
     jobs:
-      - build:
-          name: 'build-dev'
-          filters:
-            branches:
-              only: develop
-      - build:
-          name: 'build-uat'
-          filters:
-            branches:
-              only: uat
-      - build:
-          name: 'build-prod'
-          filters:
-            branches:
-              only: main
+      - build
       - deploy:
-          name: 'deploy-dev'
           requires:
-            - build-dev
-          filters:
-            branches:
-              only: develop
+            - build
+  
+  # UAT
+  build-and-deployment-to-uat:
+    when:
+      and:
+        - equal: [ false, << pipeline.parameters.pull_request >> ]
+        - equal: [ uat, << pipeline.git.branch >> ]
+    jobs:
+      - build
       - deploy:
-          name: 'deploy-uat'
           requires:
-            - build-uat
-          filters:
-            branches:
-              only: uat
+            - build
+  
+  # PROD
+  build-and-deployment-to-prod:
+    when:
+      and:
+        - equal: [ false, << pipeline.parameters.pull_request >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - build
       - deploy:
-          name: 'deploy-prod'
           requires:
-            - build-prod
-          filters:
-            branches:
-              only: main
+            - build
+
+  # Jobs definitions      
 jobs:
   tests:
     docker:
