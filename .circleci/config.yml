@@ -9,13 +9,15 @@ workflows:
   on-pull-request-tests:
     when: << pipeline.parameters.pull_request >>
     jobs:
-      - tests
+      - tests:
+          name: 'on-pull-request-tests'
 
   # feature,hotfix,bugfix Tests 
   on-push-tests:
     unless : << pipeline.parameters.pull_request >>
     jobs:
       - tests:
+          name: 'on-push-tests'
           filters:
             branches:
               ignore:
@@ -29,8 +31,10 @@ workflows:
         - equal: [ false, << pipeline.parameters.pull_request >> ]
         - equal: [ develop, << pipeline.git.branch >> ]
     jobs:
-      - build
+      - build:
+          name: 'build-dev'
       - deploy:
+          name: 'deploy-dev'
           requires:
             - build
   
@@ -41,8 +45,10 @@ workflows:
         - equal: [ false, << pipeline.parameters.pull_request >> ]
         - equal: [ uat, << pipeline.git.branch >> ]
     jobs:
-      - build
+      - build:
+          name: 'build-uat'
       - deploy:
+          name: 'deploy-uat'
           requires:
             - build
   
@@ -53,8 +59,10 @@ workflows:
         - equal: [ false, << pipeline.parameters.pull_request >> ]
         - equal: [ main, << pipeline.git.branch >> ]
     jobs:
-      - build
+      - build:
+          name: 'build-prod'
       - deploy:
+          name: 'deploy-prod'
           requires:
             - build
 
