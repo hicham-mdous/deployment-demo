@@ -6,8 +6,8 @@ name: CI
 on:
   pull_request:
     branches:
-      - develop
       - uat
+      - main
     types: [ opened]
 
 
