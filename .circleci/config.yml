@@ -23,25 +23,18 @@ workflows:
   Deployment-workflow:
     unless: << pipeline.parameters.pull_request >>
     jobs:
-      - tests
       - build:
           name: 'build-dev'
-          requires:
-            - tests
           filters:
             branches:
               only: develop
       - build:
           name: 'build-uat'
-          requires:
-            - tests
           filters:
             branches:
               only: uat
       - build:
           name: 'build-prod'
-          requires:
-            - tests
           filters:
             branches:
               only: main
