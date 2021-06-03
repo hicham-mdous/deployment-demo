@@ -1,26 +1,40 @@
 version: 2.1
+parameters:
+  pull_request:
+    type: boolean
+    default: false
 workflows:
-  deployment-workflow:
+  PR-tests-workflow:
+    when: 
+      << pipeline.parameters.pull_request >>
     jobs:
       - tests
+  tests-workflow:
+    unless : << pipeline.parameters.pull_request >>
+    jobs:
+      - tests:
+          filters:
+            branches:
+              ignore:
+                - develop
+                - uat
+                - main
+
+  Deployment-workflow:
+    unless: << pipeline.parameters.pull_request >>
+    jobs:
       - build:
           name: 'build-dev'
-          requires:
-            - tests
           filters:
             branches:
               only: develop
       - build:
           name: 'build-uat'
-          requires:
-            - tests
           filters:
             branches:
               only: uat
       - build:
           name: 'build-prod'
-          requires:
-            - tests
           filters:
             branches:
               only: main
