@@ -1,4 +1,8 @@
 version: 2.1
+parameters:
+  pull_request:
+    type: boolean
+    default: false
 workflows:
   pull_request:
     when: << pipeline.parameters.pull_request >>
