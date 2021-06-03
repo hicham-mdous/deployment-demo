@@ -36,7 +36,7 @@ workflows:
       - deploy:
           name: 'deploy-dev'
           requires:
-            - build
+            - build-dev
   
   # UAT
   build-and-deployment-to-uat:
@@ -50,7 +50,7 @@ workflows:
       - deploy:
           name: 'deploy-uat'
           requires:
-            - build
+            - build-uat
   
   # PROD
   build-and-deployment-to-prod:
@@ -64,7 +64,7 @@ workflows:
       - deploy:
           name: 'deploy-prod'
           requires:
-            - build
+            - build-prod
 
   # Jobs definitions      
 jobs:
