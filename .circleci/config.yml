@@ -4,12 +4,12 @@ parameters:
     type: boolean
     default: false
 workflows:
-  PR-tests-workflow:
+  pull-request-tests:
     when: 
       << pipeline.parameters.pull_request >>
     jobs:
       - tests
-  tests-workflow:
+  tests:
     unless : << pipeline.parameters.pull_request >>
     jobs:
       - tests:
@@ -20,7 +20,7 @@ workflows:
                 - uat
                 - main
 
-  Deployment-workflow:
+  build-and-deployment:
     unless: << pipeline.parameters.pull_request >>
     jobs:
       - build:
