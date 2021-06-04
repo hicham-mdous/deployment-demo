@@ -22,6 +22,7 @@ workflows:
         - equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - tests
+          name: 'on-push-tests'
   # DEV 
   build-and-deployment-to-dev:
     when:
