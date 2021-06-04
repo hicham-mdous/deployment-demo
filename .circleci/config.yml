@@ -15,13 +15,13 @@ workflows:
   # feature,hotfix,bugfix Tests 
   on-push-tests:
     unless : 
-     or:
-      - equal: [ true, << pipeline.parameters.pull_request >> ]
-      - equal: [ develop, << pipeline.git.branch >> ]
-      - equal: [ uat, << pipeline.git.branch >> ]
-      - equal: [ main, << pipeline.git.branch >> ]
+      or:
+        - equal: [ true, << pipeline.parameters.pull_request >> ]
+        - equal: [ develop, << pipeline.git.branch >> ]
+        - equal: [ uat, << pipeline.git.branch >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
     jobs:
-      - tests:
+      - tests
   # DEV 
   build-and-deployment-to-dev:
     when:
