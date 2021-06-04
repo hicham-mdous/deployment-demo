@@ -5,7 +5,11 @@ name: CI
 # Controls when the action will run. 
 on:
   pull_request:
-    types: [ opened,synchronize]
+    branches:
+      - uat
+      - main
+    types: [ opened]
+
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,5 +28,5 @@ jobs:
           -H 'Content-Type: application/json' \
           -H 'Accept: application/json' \
           -d "{\"branch\":\"${CIRCLE_BRANCH}\",\"parameters\":{\"pull_request\":true}}" \
-          https://circleci.com/api/v2/project/gh/hichambouzkraoui/deployment-demo/pipeline
+          https://circleci.com/api/v2/project/gh/hicham-mdous/deployment-demo/pipeline
           echo test, and deploy your project.
