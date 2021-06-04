@@ -5,7 +5,7 @@ parameters:
     default: false
 workflows:
 
-  # PR Tests 
+  # Pull Requests Tests 
   on-pull-request-tests:
     when: << pipeline.parameters.pull_request >>
     jobs:
@@ -14,16 +14,14 @@ workflows:
 
   # feature,hotfix,bugfix Tests 
   on-push-tests:
-    unless : << pipeline.parameters.pull_request >>
+    unless : 
+     or:
+      - equal: [ true, << pipeline.parameters.pull_request >> ]
+      - equal: [ develop, << pipeline.git.branch >> ]
+      - equal: [ uat, << pipeline.git.branch >> ]
+      - equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - tests:
-          name: 'on-push-tests'
-          filters:
-            branches:
-              ignore:
-                - develop
-                - uat
-                - main
   # DEV 
   build-and-deployment-to-dev:
     when:
