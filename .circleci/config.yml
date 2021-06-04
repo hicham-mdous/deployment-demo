@@ -21,7 +21,7 @@ workflows:
         - equal: [ uat, << pipeline.git.branch >> ]
         - equal: [ main, << pipeline.git.branch >> ]
     jobs:
-      - tests
+      - tests:
           name: 'on-push-tests'
   # DEV 
   build-and-deployment-to-dev:
