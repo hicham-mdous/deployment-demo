@@ -5,7 +5,7 @@ parameters:
     default: false
   target_branch:
     type: string
-    default: 'develop'
+    default: ''
 workflows:
 
   # Pull Requests Tests 
