@@ -3,6 +3,10 @@ parameters:
   pull_request:
     type: boolean
     default: false
+  parameters:
+  target_branch:
+    type: string
+    default: "develop"
 workflows:
 
   # Pull Requests Tests 
