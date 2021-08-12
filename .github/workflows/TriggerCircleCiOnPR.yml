@@ -22,11 +22,12 @@ jobs:
       - name: Trigger CircleCI
         env: 
           CIRCLE_BRANCH: ${{ github.head_ref }}
+          CIRCLE_BRANCH_TARGET: ${{ github.base_ref }}
         run: |
           curl -X POST \
           -H 'Circle-Token: ${{secrets.CIRCLE_TOKEN}}' \
           -H 'Content-Type: application/json' \
           -H 'Accept: application/json' \
-          -d "{\"branch\":\"${CIRCLE_BRANCH}\",\"parameters\":{\"pull_request\":true}}" \
+          -d "{\"branch\":\"${CIRCLE_BRANCH}\",\"parameters\":{\"pull_request\":true,\"target_branch\":\"${CIRCLE_BRANCH_TARGET}\"}}" \
           https://circleci.com/api/v2/project/gh/hicham-mdous/deployment-demo/pipeline
           echo test, and deploy your project.
