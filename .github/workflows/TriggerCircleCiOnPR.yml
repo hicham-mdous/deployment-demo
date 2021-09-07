@@ -20,6 +20,7 @@ jobs:
         env: 
           CIRCLE_BRANCH: ${{ github.head_ref }}
           REPO_NAME: ${{ github.repository }}
+          event_var: ${{ github.event }}
           REPO_OWNER: ${{ github.repository_owner }}
         run: |
           curl -X POST \
