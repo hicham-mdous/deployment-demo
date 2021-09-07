@@ -3,10 +3,11 @@ parameters:
   pull_request:
     type: boolean
     default: false
-  parameters:
+
   target_branch:
     type: string
-    default: "develop"
+    default: ''
+
 workflows:
 
   # Pull Requests Tests 
@@ -78,7 +79,7 @@ jobs:
       - checkout
       - run: # print the name of the branch we're on
           name: "Branch ${CIRCLE_BRANCH}"
-          command: echo ${CIRCLE_BRANCH}
+          command: echo "${CIRCLE_BRANCH} << pipeline.parameters.target_branch >>"
   build:
     docker:
       - image: circleci/node:lts
