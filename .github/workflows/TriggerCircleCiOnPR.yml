@@ -4,11 +4,7 @@ name: CI
 
 # Controls when the action will run. 
 on:
-  pull_request:
-    branches:
-      - develop
-      - uat
-      - main
+  pull_request_target:
     types: [ opened]
 
 
@@ -20,14 +16,16 @@ jobs:
   trigger-CircleCi:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger CircleCI
+      - name: Trigger CircleCI v3
         env: 
           CIRCLE_BRANCH: ${{ github.head_ref }}
+          REPO_NAME: ${{ github.repository }}
+          REPO_OWNER: ${{ github.repository_owner }}
         run: |
           curl -X POST \
           -H 'Circle-Token: ${{secrets.CIRCLE_TOKEN}}' \
           -H 'Content-Type: application/json' \
           -H 'Accept: application/json' \
           -d "{\"branch\":\"${CIRCLE_BRANCH}\",\"parameters\":{\"pull_request\":true}}" \
-          https://circleci.com/api/v2/project/gh/hicham-mdous/deployment-demo/pipeline
+          "https://circleci.com/api/v2/project/gh/${REPO_NAME}/pipeline"
           echo test, and deploy your project.
