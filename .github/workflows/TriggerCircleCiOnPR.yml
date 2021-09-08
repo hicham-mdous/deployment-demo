@@ -5,7 +5,7 @@ name: CI
 # Controls when the action will run. 
 on:
   pull_request:
-    types: [ opened]
+    types: [ opened,synchronize]
 
 
   # Allows you to run this workflow manually from the Actions tab
