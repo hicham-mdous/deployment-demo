@@ -5,7 +5,7 @@ name: CI
 # Controls when the action will run. 
 on:
   pull_request:
-    types: [ opened]
+    types: [ opened,synchronize]
 
 
   # Allows you to run this workflow manually from the Actions tab
@@ -16,7 +16,7 @@ jobs:
   trigger-CircleCi:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger CircleCI
+      - name: Trigger CircleCI v31
         env: 
           CIRCLE_BRANCH: ${{ github.head_ref }}
           REPO_NAME: ${{ github.repository }}
