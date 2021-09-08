@@ -16,7 +16,7 @@ jobs:
   trigger-CircleCi:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger CircleCI v4
+      - name: Trigger CircleCI
         env: 
           CIRCLE_BRANCH: ${{ github.head_ref }}
           REPO_NAME: ${{ github.repository }}
