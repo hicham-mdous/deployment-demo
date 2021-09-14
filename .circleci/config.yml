@@ -83,7 +83,7 @@ jobs:
       - run:
           name: "Memory Stats"
           command:  |
-            export FILE=memory-usage-actual.txt
+            echo 'export FILE=memory-usage-actual.txt' >> $BASH_ENV
             while true;do
               ps -u circleci eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE
               echo "------$(date +%Y%m%d%H%M%S)----" >> $FILE
@@ -91,7 +91,7 @@ jobs:
             done
           background: true
       - store_artifacts:
-          path: $FILE
+          path: "$FILE"
   build:
     docker:
       - image: circleci/node:lts
