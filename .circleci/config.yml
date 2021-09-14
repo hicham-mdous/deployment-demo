@@ -84,8 +84,8 @@ jobs:
           name: "Memory Stats"
           command:  |
             while true;do
-              ps -u circleci eo pid,%cpu,%mem,args,uname --sort=-%mem >> memory-usage-actual.txt
               echo "------$(date +%Y%m%d%H%M%S)----" >> memory-usage-actual.txt
+              ps -u circleci eo pid,%cpu,%mem,args,uname --sort=-%mem >> memory-usage-actual.txt
               sleep 1
             done
           background: true
