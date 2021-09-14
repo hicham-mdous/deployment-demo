@@ -83,13 +83,15 @@ jobs:
       - run:
           name: "Memory Stats"
           command:  |
-            FILE=$CIRCLE_ARTIFACTS/memory-usage-actual.txt
+            FILE=memory-usage-actual.txt
             while true;do
               ps -u circleci eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE
               echo "----------" >> $FILE
               sleep 1
             done
           background: true
+      - store_artifacts:
+          path: memory-usage-actual.txt
   build:
     docker:
       - image: circleci/node:lts
