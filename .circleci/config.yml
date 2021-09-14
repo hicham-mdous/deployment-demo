@@ -80,6 +80,12 @@ jobs:
       - run: # print the name of the branch we're on
           name: "Branch ${CIRCLE_BRANCH}"
           command: echo "${CIRCLE_BRANCH} << pipeline.parameters.target_branch >>"
+      - run:
+          name: "Memory Stats"
+          command:  |
+            FILE=$CIRCLE_ARTIFACTS/memory-usage-actual.txt
+            while true; do ps -u ubuntu eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep 1; done:
+          background: true
   build:
     docker:
       - image: circleci/node:lts
