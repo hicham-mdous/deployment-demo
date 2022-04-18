@@ -24,6 +24,7 @@ workflows:
         - equal: [ true, << pipeline.parameters.pull_request >> ]
         - equal: [ develop, << pipeline.git.branch >> ]
         - equal: [ uat, << pipeline.git.branch >> ]
+        - equal: [ staging, << pipeline.git.branch >> ]
         - equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - tests:
@@ -55,6 +56,20 @@ workflows:
           name: 'deploy-uat'
           requires:
             - build-uat
+
+  # PROD
+  build-and-deployment-to-staging:
+    when:
+      and:
+        - equal: [ false, << pipeline.parameters.pull_request >> ]
+        - equal: [ staging, << pipeline.git.branch >> ]
+    jobs:
+      - build:
+          name: 'build-staging'
+      - deploy:
+          name: 'deploy-staging'
+          requires:
+            - build-staging
   
   # PROD
   build-and-deployment-to-prod:
